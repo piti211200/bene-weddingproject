@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BENE – Download</title>
+<style>
+body{text-align:center;font-family:Arial;}
+img{max-width:90%;border:2px solid #000;}
+button{font-size:18px;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<h1>BENE weddingproject</h1>
+<img id="img"><br>
+<button onclick="download()">ดาวน์โหลด PNG</button>
+
+<script>
+img.src=localStorage.getItem("message")||"";
+
+function download(){
+ let a=document.createElement("a");
+ a.href=img.src;
+ a.download="BENE_wedding.png";
+ a.click();
+}
+</script>
+
+</body>
+</html>
