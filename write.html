@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BENE weddingproject – Write</title>
+<style>
+body { font-family: Arial; text-align: center; background: white; }
+canvas { border: 3px solid #000; touch-action: none; }
+input, button { font-size: 18px; margin: 5px; }
+</style>
+</head>
+<body>
+
+<h1>BENE weddingproject</h1>
+
+<p>
+รูปเจ้าบ่าว <input type="file" id="groom" accept="image/*"><br>
+รูปเจ้าสาว <input type="file" id="bride" accept="image/*">
+</p>
+
+<p>
+วันที่งาน <input type="date" id="date">
+</p>
+
+<p>เขียนคำอวยพร</p>
+<canvas id="pad" width="800" height="400"></canvas><br>
+
+<button onclick="clearPad()">ล้าง</button>
+<button onclick="send()">ส่งขึ้นจอ</button>
+
+<script>
+const c = document.getElementById("pad");
+const ctx = c.getContext("2d");
+let draw=false;
+
+function p(e){
+ if(e.touches){
+  return {x:e.touches[0].clientX-c.offsetLeft,y:e.touches[0].clientY-c.offsetTop};
+ }
+ return {x:e.offsetX,y:e.offsetY};
+}
+
+c.onmousedown=()=>draw=true;
+c.onmouseup=()=>draw=false;
+c.onmousemove=d;
+c.ontouchstart=e=>{draw=true;e.preventDefault();}
+c.ontouchend=()=>draw=false;
+c.ontouchmove=d;
+
+function d(e){
+ if(!draw) return;
+ let pos=p(e);
+ ctx.lineWidth=4;
+ ctx.lineCap="round";
+ ctx.lineTo(pos.x,pos.y);
+ ctx.stroke();
+ ctx.beginPath();
+ ctx.moveTo(pos.x,pos.y);
+}
+
+function clearPad(){
+ ctx.clearRect(0,0,c.width,c.height);
+}
+
+function loadImg(input,key){
+ return new Promise(r=>{
+  if(!input.files[0]) return r();
+  let fr=new FileReader();
+  fr.onload=()=>{localStorage.setItem(key,fr.result);r();}
+  fr.readAsDataURL(input.files[0]);
+ });
+}
+
+async function send(){
+ await loadImg(groom,"groom");
+ await loadImg(bride,"bride");
+ localStorage.setItem("date",date.value);
+ localStorage.setItem("message",c.toDataURL());
+ alert("ส่งขึ้นจอแล้ว");
+}
+</script>
+
+</body>
+</html>
