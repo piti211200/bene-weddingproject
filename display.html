@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BENE – Display</title>
+<style>
+body{margin:0;background:white;text-align:center;}
+.top{display:flex;justify-content:center;gap:40px;margin-top:20px;}
+img{max-height:150px;}
+#msg{max-width:90%;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<div class="top">
+<img id="groom">
+<h2 id="date"></h2>
+<img id="bride">
+</div>
+
+<img id="msg">
+
+<script>
+setInterval(()=>{
+ groom.src=localStorage.getItem("groom")||"";
+ bride.src=localStorage.getItem("bride")||"";
+ date.innerText=localStorage.getItem("date")||"";
+ msg.src=localStorage.getItem("message")||"";
+},1000);
+</script>
+
+</body>
+</html>
